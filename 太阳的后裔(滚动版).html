@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>太阳的后裔</title>
+	<style>
+	*{
+	margin:0;
+	padding:0;
+	border:0;}
+	#container{
+	list-style:none;
+	padding:5px;
+	position:relative;}
+	.box{
+	
+	padding:5px;
+	float:left;}
+	.box img{
+	width:200px;
+	height:auto;}
+	</style>
+</head>
+<body>
+	<ul id="container">
+	
+		<li class="box"><img src="images/01.jpg"></li>
+	
+		<li class="box"><img src="images/02.jpg"></li>
+	
+		<li class="box"><img src="images/04.jpg"></li>
+	
+		<li class="box"><img src="images/05.jpg"></li>
+	
+		<li class="box"><img src="images/32.jpg"></li>
+
+		<li class="box"><img src="images/08.jpg"></li>
+
+		<li class="box"><img src="images/09.jpg"></li>
+
+		<li class="box"><img src="images/07.gif"></li>
+
+		<li class="box"><img src="images/11.jpg"></li>
+
+		<li class="box"><img src="images/17.jpg"></li>
+
+		<li class="box"><img src="images/19.jpg"></li>
+
+		<li class="box"><img src="images/20.jpg"></li>
+
+		<li class="box"><img src="images/21.jpg"></li>
+
+		<li class="box"><img src="images/22.jpg"></li>
+
+		<li class="box"><img src="images/23.jpg"></li>
+
+		<li class="box"><img src="images/24.jpg"></li>
+
+		<li class="box"><img src="images/25.jpg"></li>
+
+		<li class="box"><img src="images/26.jpg"></li>
+
+		<li class="box"><img src="images/27.jpg"></li>
+
+		<li class="box"><img src="images/28.jpg"></li>
+
+		<li class="box"><img src="images/29.jpg"></li>
+
+		<li class="box"><img src="images/30.jpg"></li>
+
+		<li class="box"><img src="images/31.jpg"></li>
+
+		<li class="box"><img src="images/06.jpg"></li>
+	</ul>
+	<script>
+	window.onload=function(){
+		var oparent=document.getElementById("container");
+		setImgLocation(oparent);
+		var data = ["images/01.jpg","images/02.jpg","images/04.jpg","images/05.jpg","images/32.jpg","images/08.jpg","images/09.jpg","images/07.gif","images/11.jpg","images/17.jpg","images/19.jpg","images/20.jpg","images/21.jpg","images/22.jpg","images/23.jpg","images/24.jpg","images/25.jpg","images/26.jpg","images/27.jpg","images/28.jpg","images/29.jpg","images/30.jpg","images/31.jpg","images/06.jpg"];
+		window.onscroll = function (){
+			//if (checkLoad(oparent))
+			//alert(1);
+			//{
+				for(var i=0;i<data.length;i++)
+				{
+					var oli=document.createElement("li");
+					oli.className="box";
+					var oimg=document.createElement("img");
+					//oimg.src=data[i];
+					oimg.setAttribute("src",data[i]);
+					oli.appendChild(oimg);
+					oparent.appendChild(oli);
+				}
+				setImgLocation(oparent);
+			//}
+		};
+			 
+	};
+	function checkLoad(oparent){
+		var imgArray = oparent.getElementsByTagName("li");//得到图片个数
+		var lastImgHight = imgArray[imgArray.length-1].offsetTop;//得到最后一张图片距离顶部高度
+		var scrollHeight = document.documentElement.scrollTop||document.body.scrollTop;//获得滑动距离(浏览器兼容性真烦人)
+		var browserHeight = document.documentElement.clientHeight;//获得浏览器高度
+		if(lastImgHight < scrollHeight+browserHeight)
+		{//判断是否加载
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	function setImgLocation(oparent)
+	{
+		
+		
+		//得到所有的li
+		var imgArray=oparent.getElementsByTagName("li");
+		//alert(imgArray.length);
+		//获取一张图片的高度
+		var imgWidth=imgArray[0].offsetWidth;
+		//获取浏览器屏幕的高度
+		var screenWidth=document.documentElement.clientWidth;
+		//计算一行可放多少张图片
+		var count=Math.floor(screenWidth/imgWidth);
+		//alert(count);
+		//创建一个存储每列图片高度的数组
+		var imgHarray=[];
+		//有多少张图片，循环多少次
+		for(var i=0;i<imgArray.length;i++)
+		{
+			//如果i<count，那么存于第一行，并把他们的高度存在imgHarray中
+			if(i<count)
+			{
+				imgHarray[i]=imgArray[i].offsetHeight;
+			}
+			else
+			{
+				//计算imgHarray中最小的高度
+				var minHeight=Math.min.apply(null,imgHarray);
+				//得到minHeight所对应的下标
+				var minIndex=getMinIndex(minHeight,imgHarray);
+				//alert(i);
+				//设置第i个图片的属性
+				imgArray[i].style.position="absolute";
+				imgArray[i].style.top=minHeight+'px';
+				imgArray[i].style.left=imgArray[minIndex].offsetLeft+'px';
+				//改变minIndex+1列的高度
+				imgHarray[minIndex]+=imgArray[i].offsetHeight;
+			}
+		}
+	}
+	
+	function getMinIndex(minHeight,imgHarray){
+	  for(var i in imgHarray){
+		if(imgHarray[i] == minHeight){
+		  return i;
+		}
+	  }
+	}
+	</script>
+</body>
+</html>
